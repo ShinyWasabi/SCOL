@@ -81,7 +81,9 @@ namespace SCOL
                 {
                     return std::stol(val);
                 }
-                catch (...) {}
+                catch (...)
+                {
+                }
             }
             return defaultValue;
         }

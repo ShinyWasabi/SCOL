@@ -3,109 +3,109 @@
 
 namespace SCOL
 {
-	static std::vector<std::uint64_t> ParseArgs(const std::string& str)
-	{
-		std::vector<std::uint64_t> args;
-		std::istringstream iss(str);
-		std::string token;
+    static std::vector<std::uint64_t> ParseArgs(const std::string& str)
+    {
+        std::vector<std::uint64_t> args;
+        std::istringstream iss(str);
+        std::string token;
 
-		while (std::getline(iss, token, ','))
-		{
-			try
-			{
-				args.push_back(std::stoull(token));
-			}
-			catch (...)
-			{
-			}
-		}
+        while (std::getline(iss, token, ','))
+        {
+            try
+            {
+                args.push_back(std::stoull(token));
+            }
+            catch (...)
+            {
+            }
+        }
 
-		return args;
-	}
+        return args;
+    }
 
-	void Settings::InitImpl(const std::string& file)
-	{
-		m_FileName = file;
-		Load();
-	}
+    void Settings::InitImpl(const std::string& file)
+    {
+        m_FileName = file;
+        Load();
+    }
 
-	void Settings::LoadImpl()
-	{
-		IniFile ini;
-		ini.LoadFile(m_FileName.c_str());
+    void Settings::LoadImpl()
+    {
+        IniFile ini;
+        ini.LoadFile(m_FileName.c_str());
 
-		bool dirty = false;
+        bool dirty = false;
 
-		if (!ini.GetValue("Settings", "ScriptsFolder"))
-		{
-			ini.SetValue("Settings", "ScriptsFolder", ".");
-			dirty = true;
-		}
+        if (!ini.GetValue("Settings", "ScriptsFolder"))
+        {
+            ini.SetValue("Settings", "ScriptsFolder", ".");
+            dirty = true;
+        }
 
-		if (!ini.GetValue("Settings", "ReloadKey"))
-		{
-			ini.SetLongValue("Settings", "ReloadKey", VK_F5);
-			dirty = true;
-		}
+        if (!ini.GetValue("Settings", "ReloadKey"))
+        {
+            ini.SetLongValue("Settings", "ReloadKey", VK_F5);
+            dirty = true;
+        }
 
-		if (dirty)
-			ini.SaveFile(m_FileName.c_str());
+        if (dirty)
+            ini.SaveFile(m_FileName.c_str());
 
-		g_Variables.ScriptsFolder = ini.GetValue("Settings", "ScriptsFolder", ".");
-		g_Variables.ReloadKey = ini.GetLongValue("Settings", "ReloadKey", VK_F5);
-	}
+        g_Variables.ScriptsFolder = ini.GetValue("Settings", "ScriptsFolder", ".");
+        g_Variables.ReloadKey = ini.GetLongValue("Settings", "ReloadKey", VK_F5);
+    }
 
-	void Settings::UpdateImpl()
-	{
-		const auto now = std::chrono::high_resolution_clock::now();
-		if (std::chrono::duration_cast<std::chrono::seconds>(now - m_LastUpdate) < 3s)
-			return;
+    void Settings::UpdateImpl()
+    {
+        const auto now = std::chrono::high_resolution_clock::now();
+        if (std::chrono::duration_cast<std::chrono::seconds>(now - m_LastUpdate) < 3s)
+            return;
 
-		m_LastUpdate = now;
+        m_LastUpdate = now;
 
-		Load();
-	}
+        Load();
+    }
 
-	Settings::ScriptData Settings::GetScriptDataImpl(const std::string& name)
-	{
-		IniFile ini;
-		ini.LoadFile(m_FileName.c_str());
+    Settings::ScriptData Settings::GetScriptDataImpl(const std::string& name)
+    {
+        IniFile ini;
+        ini.LoadFile(m_FileName.c_str());
 
-		bool dirty = false;
+        bool dirty = false;
 
-		if (!ini.GetValue(name.c_str(), "Args"))
-		{
-			ini.SetValue(name.c_str(), "Args", "0");
-			dirty = true;
-		}
+        if (!ini.GetValue(name.c_str(), "Args"))
+        {
+            ini.SetValue(name.c_str(), "Args", "0");
+            dirty = true;
+        }
 
-		if (!ini.GetValue(name.c_str(), "ArgCount"))
-		{
-			ini.SetLongValue(name.c_str(), "ArgCount", 0);
-			dirty = true;
-		}
+        if (!ini.GetValue(name.c_str(), "ArgCount"))
+        {
+            ini.SetLongValue(name.c_str(), "ArgCount", 0);
+            dirty = true;
+        }
 
-		if (!ini.GetValue(name.c_str(), "StackSize"))
-		{
-			ini.SetLongValue(name.c_str(), "StackSize", 1424);
-			dirty = true;
-		}
+        if (!ini.GetValue(name.c_str(), "StackSize"))
+        {
+            ini.SetLongValue(name.c_str(), "StackSize", 1424);
+            dirty = true;
+        }
 
-		if (!ini.GetValue(name.c_str(), "CleanupFunction"))
-		{
-			ini.SetLongValue(name.c_str(), "CleanupFunction", 0);
-			dirty = true;
-		}
+        if (!ini.GetValue(name.c_str(), "CleanupFunction"))
+        {
+            ini.SetLongValue(name.c_str(), "CleanupFunction", 0);
+            dirty = true;
+        }
 
-		if (dirty)
-			ini.SaveFile(m_FileName.c_str());
+        if (dirty)
+            ini.SaveFile(m_FileName.c_str());
 
-		ScriptData data;
-		data.Args = ParseArgs(ini.GetValue(name.c_str(), "Args", "0"));
-		data.ArgCount = ini.GetLongValue(name.c_str(), "ArgCount", 0);
-		data.StackSize = ini.GetLongValue(name.c_str(), "StackSize", 1424);
-		data.CleanupFunction = ini.GetLongValue(name.c_str(), "CleanupFunction", 0);
+        ScriptData data;
+        data.Args = ParseArgs(ini.GetValue(name.c_str(), "Args", "0"));
+        data.ArgCount = ini.GetLongValue(name.c_str(), "ArgCount", 0);
+        data.StackSize = ini.GetLongValue(name.c_str(), "StackSize", 1424);
+        data.CleanupFunction = ini.GetLongValue(name.c_str(), "CleanupFunction", 0);
 
-		return data;
-	}
+        return data;
+    }
 }

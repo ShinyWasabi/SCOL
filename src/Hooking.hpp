@@ -15,7 +15,7 @@ namespace SCOL
 
         static bool Init();
 
-        template<typename T>
+        template <typename T>
         static T GetOriginal(const std::string& name)
         {
             for (auto& hook : m_Hooks)
@@ -28,10 +28,10 @@ namespace SCOL
         }
 
     private:
-        template<typename T, typename D>
+        template <typename T, typename D>
         static void AddHook(const std::string& name, T target, D detour)
         {
-            m_Hooks.push_back({ name, reinterpret_cast<void*>(target), reinterpret_cast<void*>(detour) });
+            m_Hooks.push_back({name, reinterpret_cast<void*>(target), reinterpret_cast<void*>(detour)});
         }
 
         static inline std::vector<Hook> m_Hooks;

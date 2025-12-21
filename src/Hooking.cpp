@@ -1,6 +1,6 @@
 #include "Hooking.hpp"
-#include "Pointers.hpp"
 #include "Loader.hpp"
+#include "Pointers.hpp"
 #include "rage/scrProgram.hpp"
 
 namespace SCOL
