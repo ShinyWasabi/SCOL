@@ -8,61 +8,73 @@
 namespace SCOL::Natives
 {
     // TO-DO: If we set a static to a literal string, it will point to invalid memory next time we reload the script as our string table will be freed.
-    // NOTE: Globals cannot be declared as STRING, so we don't have SET/GET methods for it.
+    // NOTE: Globals cannot be declared as STRING, so we don't have SET/GET methods for them.
+
+    // clang-format off
 
     // Core
-    static constexpr rage::scrNativeHash LOG_TO_FILE = 0x7F41C15A89FDEE9F;
-    static constexpr rage::scrNativeHash WRITE_MEMORY = 0xEEE74A05DE4C2A07;
-    static constexpr rage::scrNativeHash READ_MEMORY = 0x1E9F7F45D0E77AAC;
+    static constexpr rage::scrNativeHash LOG_TO_FILE                                       = 0x7F41C15A89FDEE9F;
+
+    // Memory
+    static constexpr rage::scrNativeHash MEMORY_SCAN_PATTERN                               = 0x0E7D68BA1B32BA2A;
+    static constexpr rage::scrNativeHash MEMORY_ADD                                        = 0x043339EE866586BD;
+    static constexpr rage::scrNativeHash MEMORY_RIP                                        = 0x6E496FA081015FC3;
+    static constexpr rage::scrNativeHash MEMORY_DEREF                                      = 0x9C980189DFBDADAD;
+    static constexpr rage::scrNativeHash MEMORY_WRITE                                      = 0xD763E0EF3AFCE986;
+    static constexpr rage::scrNativeHash MEMORY_READ                                       = 0x5353EB6CABD2A870;
+    static constexpr rage::scrNativeHash MEMORY_WRITE_INT                                  = 0xA1CDE11FA6D2838F;
+    static constexpr rage::scrNativeHash MEMORY_READ_INT                                   = 0x1884B5B84D20DEF9;
 
     // Script Threads
-    static constexpr rage::scrNativeHash SET_CURRENT_SCRIPT_THREAD = 0x7AFACDB81809E2C1;
-    static constexpr rage::scrNativeHash SET_SCRIPT_THREAD_STATE = 0x2B53D1F2FAD6DB0E;
+    static constexpr rage::scrNativeHash SET_CURRENT_SCRIPT_THREAD                         = 0x7AFACDB81809E2C1;
+    static constexpr rage::scrNativeHash SET_SCRIPT_THREAD_STATE                           = 0x2B53D1F2FAD6DB0E;
 
     // Statics
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_INT = 0x857A2700DC9407CF;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_FLOAT = 0xD8AABF55B8C2ABCC;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_STRING = 0xBBED7EBD9CB32457;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_TEXT_LABEL = 0x82486D97F828522B;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_VECTOR = 0x1CBDE8A15884D019;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_INT = 0xE60444296FBC9C3C;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_FLOAT = 0x02917A468A9F9203;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_STRING = 0x50AECCD9E4A23B3A;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_TEXT_LABEL = 0x83C64F9F51CCB284;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_VECTOR = 0x022347480BDA5340;
-    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_POINTER = 0x8B1A5E688A9ABF31;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_INT                             = 0x857A2700DC9407CF;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_FLOAT                           = 0xD8AABF55B8C2ABCC;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_STRING                          = 0xBBED7EBD9CB32457;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_TEXT_LABEL                      = 0x82486D97F828522B;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_SET_VECTOR                          = 0x1CBDE8A15884D019;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_INT                             = 0xE60444296FBC9C3C;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_FLOAT                           = 0x02917A468A9F9203;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_STRING                          = 0x50AECCD9E4A23B3A;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_TEXT_LABEL                      = 0x83C64F9F51CCB284;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_VECTOR                          = 0x022347480BDA5340;
+    static constexpr rage::scrNativeHash SCRIPT_STATIC_GET_POINTER                         = 0x8B1A5E688A9ABF31;
 
     // Globals
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_INT = 0xE308F800129466D7;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_FLOAT = 0xCE23B2BC1A4037EE;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_TEXT_LABEL = 0xC7540C6E3F588A63;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_VECTOR = 0x2D670A4779E7390E;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_INT = 0x95257993CA3F052E;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_FLOAT = 0xDC21946AD79CBEAF;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_TEXT_LABEL = 0x79516115C6DB77F2;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_VECTOR = 0x673E810DC3EC1307;
-    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_POINTER = 0xDFFE51F613A8E53F;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_INT                             = 0xE308F800129466D7;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_FLOAT                           = 0xCE23B2BC1A4037EE;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_TEXT_LABEL                      = 0xC7540C6E3F588A63;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_SET_VECTOR                          = 0x2D670A4779E7390E;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_INT                             = 0x95257993CA3F052E;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_FLOAT                           = 0xDC21946AD79CBEAF;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_TEXT_LABEL                      = 0x79516115C6DB77F2;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_VECTOR                          = 0x673E810DC3EC1307;
+    static constexpr rage::scrNativeHash SCRIPT_GLOBAL_GET_POINTER                         = 0xDFFE51F613A8E53F;
 
     // Script Functions (array parameters and text label/struct returns are currently not supported)
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_BEGIN_CALL = 0xC0E22B4A435AC866;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_INT = 0x08498C0E9D0B40FF;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_FLOAT = 0x77447CC2B714B3CD;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_STRING = 0x274DF0AFD6AE55ED;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_VECTOR = 0x4C033060974B7B16;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_POINTER = 0x6D56C40AE63AF5EB;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_INT = 0x23C957EA2CAC32C1;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_FLOAT = 0xD1F101417313D51C;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_BEGIN_CALL                        = 0xC0E22B4A435AC866;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_INT                     = 0x08498C0E9D0B40FF;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_FLOAT                   = 0x77447CC2B714B3CD;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_STRING                  = 0x274DF0AFD6AE55ED;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_VECTOR                  = 0x4C033060974B7B16;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_POINTER                 = 0x6D56C40AE63AF5EB;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_INT           = 0x23C957EA2CAC32C1;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_FLOAT         = 0xD1F101417313D51C;
     static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_15 = 0x5C322B4B4444B1D5;
     static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_23 = 0xE4FED9824D4F4506;
     static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_31 = 0x3A991D3A46ED3946;
     static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_63 = 0xB8051D0558A34D66;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_VECTOR = 0x51A946C23ABD71E8;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_STRUCT = 0xBB8A36B6AF274653;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_PROC = 0x56A2FF1109E4288A;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_INT = 0x21448D2E73E6268B;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_FLOAT = 0xD67665C45FB0350D;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_STRING = 0xCF772F62E284AC66;
-    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_VECTOR = 0xBDAC87D43E99E594;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_VECTOR        = 0x51A946C23ABD71E8;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_STRUCT        = 0xBB8A36B6AF274653;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_PROC                     = 0x56A2FF1109E4288A;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_INT                      = 0x21448D2E73E6268B;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_FLOAT                    = 0xD67665C45FB0350D;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_STRING                   = 0xCF772F62E284AC66;
+    static constexpr rage::scrNativeHash SCRIPT_FUNCTION_END_CALL_VECTOR                   = 0xBDAC87D43E99E594;
+
+    // clang-format on
 
     class ScriptFunctionCallContext
     {
@@ -160,62 +172,116 @@ namespace SCOL::Natives
         logFile.flush();
     }
 
-    static void NativeCommandWriteMemory(rage::scrNativeCallContext* ctx)
+    static void NativeCommandMemoryScanPattern(rage::scrNativeCallContext* ctx)
     {
         auto name = ctx->m_Args[0].String;
         auto pattern = ctx->m_Args[1].String;
-        auto offset = ctx->m_Args[2].Int;
-        auto rip = ctx->m_Args[3].Int;
-        auto patch = ctx->m_Args[4].Reference;
-        auto protect = ctx->m_Args[5].Int;
 
+        std::uint64_t ptr{};
         if (auto addr = Scanner::ScanPattern(name, pattern))
-        {
-            auto loc = addr->Add(offset);
-            if (rip)
-                loc = loc.Rip();
+            ptr = addr->As<std::uint64_t>();
 
-            auto ptr = loc.As<std::uint8_t*>();
-
-            auto count = static_cast<int>(patch[0].Any);
-            auto items = patch + 1;
-
-            std::vector<std::uint8_t> data;
-            for (int i = 0; i < count; i++)
-            {
-                data.push_back(static_cast<std::uint8_t>(items[i].Any));
-            }
-
-            if (protect)
-            {
-                DWORD oldProtect, temp;
-                VirtualProtect(ptr, count, PAGE_EXECUTE_READWRITE, &oldProtect);
-                std::memcpy(ptr, data.data(), count);
-                VirtualProtect(ptr, count, oldProtect, &temp);
-            }
-            else
-            {
-                std::memcpy(ptr, data.data(), count);
-            }
-        }
+        ctx->m_ReturnValue->Any = ptr;
     }
 
-    static void NativeCommandReadMemory(rage::scrNativeCallContext* ctx)
+    static void NativeCommandMemoryAdd(rage::scrNativeCallContext* ctx)
     {
-        auto name = ctx->m_Args[0].String;
-        auto pattern = ctx->m_Args[1].String;
-        auto offset = ctx->m_Args[2].Int;
-        auto rip = ctx->m_Args[3].Int;
+        auto ptr = ctx->m_Args[0].Any;
+        auto offset = ctx->m_Args[1].Int;
+
+        if (!ptr)
+        {
+            ctx->m_ReturnValue->Any = 0;
+            return;
+        }
+
+        ctx->m_ReturnValue->Any = Memory(ptr).Add(offset).As<std::uint64_t>();
+    }
+
+    static void NativeCommandMemoryRip(rage::scrNativeCallContext* ctx)
+    {
+        auto ptr = ctx->m_Args[0].Any;
+
+        if (!ptr)
+        {
+            ctx->m_ReturnValue->Any = 0;
+            return;
+        }
+
+        ctx->m_ReturnValue->Any = Memory(ptr).Rip().As<std::uint64_t>();
+    }
+
+    static void NativeCommandMemoryDeref(rage::scrNativeCallContext* ctx)
+    {
+        auto ptr = ctx->m_Args[0].Any;
+
+        if (!ptr)
+        {
+            ctx->m_ReturnValue->Any = 0;
+            return;
+        }
+
+        ctx->m_ReturnValue->Any = static_cast<std::uint64_t>(*Memory(ptr).As<std::uint64_t*>());
+    }
+
+    static void NativeCommandMemoryWrite(rage::scrNativeCallContext* ctx)
+    {
+        auto ptr = ctx->m_Args[0].Any;
+        auto patch = ctx->m_Args[1].Reference;
+
+        if (!ptr || !patch)
+            return;
+
+        auto count = static_cast<std::uint32_t>(patch[0].Any);
+
+        auto dst = Memory(ptr).As<std::uint8_t*>();
+
+        std::vector<std::uint8_t> bytes;
+        bytes.reserve(count);
+
+        for (std::uint32_t i = 0; i < count; i++)
+            bytes.push_back(static_cast<std::uint8_t>(patch[i + 1].Any));
+
+        DWORD oldProtect, temp;
+        VirtualProtect(dst, count, PAGE_EXECUTE_READWRITE, &oldProtect);
+        std::memcpy(dst, bytes.data(), count);
+        VirtualProtect(dst, count, oldProtect, &temp);
+    }
+
+    static void NativeCommandMemoryRead(rage::scrNativeCallContext* ctx)
+    {
+        auto ptr = ctx->m_Args[0].Any;
+        auto patch = ctx->m_Args[1].Reference;
+
+        if (!ptr || !patch)
+            return;
+
+        auto count = static_cast<std::uint32_t>(patch[0].Any);
+
+        auto src = Memory(ptr).As<std::uint8_t*>();
+
+        for (std::uint32_t i = 0; i < count; i++)
+            patch[i + 1].Any = static_cast<std::uint64_t>(src[i]);
+    }
+
+    static void NativeCommandMemoryWriteInt(rage::scrNativeCallContext* ctx)
+    {
+        auto ptr = ctx->m_Args[0].Any;
+        auto value = ctx->m_Args[1].Int;
+
+        if (!ptr)
+            return;
+
+        *Memory(ptr).As<std::int32_t*>() = value;
+    }
+
+    static void NativeCommandMemoryReadInt(rage::scrNativeCallContext* ctx)
+    {
+        auto ptr = ctx->m_Args[0].Any;
 
         std::int32_t retVal{};
-        if (auto addr = Scanner::ScanPattern(name, pattern))
-        {
-            auto loc = addr->Add(offset);
-            if (rip)
-                loc = loc.Rip();
-
-            retVal = loc.As<std::int32_t&>();
-        }
+        if (ptr)
+            retVal = *Memory(ptr).As<std::int32_t*>();
 
         ctx->m_ReturnValue->Int = retVal;
     }
@@ -566,54 +632,65 @@ namespace SCOL::Natives
             LOGF(INFO, "Registered native command with hash 0x{:X}.", hash);
         };
 
-        RegisterNative(LOG_TO_FILE, NativeCommandLogToFile);
-        RegisterNative(WRITE_MEMORY, NativeCommandWriteMemory);
-        RegisterNative(READ_MEMORY, NativeCommandReadMemory);
+        // clang-format off
 
-        RegisterNative(SET_CURRENT_SCRIPT_THREAD, NativeCommandSetCurrentScriptThread);
-        RegisterNative(SET_SCRIPT_THREAD_STATE, NativeCommandSetScriptThreadState);
+        RegisterNative(LOG_TO_FILE,                                       NativeCommandLogToFile);
 
-        RegisterNative(SCRIPT_STATIC_SET_INT, NativeCommandScriptStaticSetInt);
-        RegisterNative(SCRIPT_STATIC_SET_FLOAT, NativeCommandScriptStaticSetFloat);
-        RegisterNative(SCRIPT_STATIC_SET_STRING, NativeCommandScriptStaticSetString);
-        RegisterNative(SCRIPT_STATIC_SET_TEXT_LABEL, NativeCommandScriptStaticSetTextLabel);
-        RegisterNative(SCRIPT_STATIC_SET_VECTOR, NativeCommandScriptStaticSetVector);
-        RegisterNative(SCRIPT_STATIC_GET_INT, NativeCommandScriptStaticGetInt);
-        RegisterNative(SCRIPT_STATIC_GET_FLOAT, NativeCommandScriptStaticGetFloat);
-        RegisterNative(SCRIPT_STATIC_GET_STRING, NativeCommandScriptStaticGetString);
-        RegisterNative(SCRIPT_STATIC_GET_TEXT_LABEL, NativeCommandScriptStaticGetTextLabel);
-        RegisterNative(SCRIPT_STATIC_GET_VECTOR, NativeCommandScriptStaticGetVector);
-        RegisterNative(SCRIPT_STATIC_GET_POINTER, NativeCommandScriptStaticGetPointer);
+        RegisterNative(MEMORY_SCAN_PATTERN,                               NativeCommandMemoryScanPattern);
+        RegisterNative(MEMORY_ADD,                                        NativeCommandMemoryAdd);
+        RegisterNative(MEMORY_RIP,                                        NativeCommandMemoryRip);
+        RegisterNative(MEMORY_DEREF,                                      NativeCommandMemoryDeref);
+        RegisterNative(MEMORY_WRITE,                                      NativeCommandMemoryWrite);
+        RegisterNative(MEMORY_READ,                                       NativeCommandMemoryRead);
+        RegisterNative(MEMORY_WRITE_INT,                                  NativeCommandMemoryWriteInt);
+        RegisterNative(MEMORY_READ_INT,                                   NativeCommandMemoryReadInt);
 
-        RegisterNative(SCRIPT_GLOBAL_SET_INT, NativeCommandScriptGlobalSetInt);
-        RegisterNative(SCRIPT_GLOBAL_SET_FLOAT, NativeCommandScriptGlobalSetFloat);
-        RegisterNative(SCRIPT_GLOBAL_SET_TEXT_LABEL, NativeCommandScriptGlobalSetTextLabel);
-        RegisterNative(SCRIPT_GLOBAL_SET_VECTOR, NativeCommandScriptGlobalSetVector);
-        RegisterNative(SCRIPT_GLOBAL_GET_INT, NativeCommandScriptGlobalGetInt);
-        RegisterNative(SCRIPT_GLOBAL_GET_FLOAT, NativeCommandScriptGlobalGetFloat);
-        RegisterNative(SCRIPT_GLOBAL_GET_TEXT_LABEL, NativeCommandScriptGlobalGetTextLabel);
-        RegisterNative(SCRIPT_GLOBAL_GET_VECTOR, NativeCommandScriptGlobalGetVector);
-        RegisterNative(SCRIPT_GLOBAL_GET_POINTER, NativeCommandScriptGlobalGetPointer);
+        RegisterNative(SET_CURRENT_SCRIPT_THREAD,                         NativeCommandSetCurrentScriptThread);
+        RegisterNative(SET_SCRIPT_THREAD_STATE,                           NativeCommandSetScriptThreadState);
 
-        RegisterNative(SCRIPT_FUNCTION_BEGIN_CALL, NativeCommandScriptFunctionBeginCall);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_INT, NativeCommandScriptFunctionAddParamInt);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_FLOAT, NativeCommandScriptFunctionAddParamFloat);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_STRING, NativeCommandScriptFunctionAddParamString);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_VECTOR, NativeCommandScriptFunctionAddParamVector);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_POINTER, NativeCommandScriptFunctionAddParamPointer);
+        RegisterNative(SCRIPT_STATIC_SET_INT,                             NativeCommandScriptStaticSetInt);
+        RegisterNative(SCRIPT_STATIC_SET_FLOAT,                           NativeCommandScriptStaticSetFloat);
+        RegisterNative(SCRIPT_STATIC_SET_STRING,                          NativeCommandScriptStaticSetString);
+        RegisterNative(SCRIPT_STATIC_SET_TEXT_LABEL,                      NativeCommandScriptStaticSetTextLabel);
+        RegisterNative(SCRIPT_STATIC_SET_VECTOR,                          NativeCommandScriptStaticSetVector);
+        RegisterNative(SCRIPT_STATIC_GET_INT,                             NativeCommandScriptStaticGetInt);
+        RegisterNative(SCRIPT_STATIC_GET_FLOAT,                           NativeCommandScriptStaticGetFloat);
+        RegisterNative(SCRIPT_STATIC_GET_STRING,                          NativeCommandScriptStaticGetString);
+        RegisterNative(SCRIPT_STATIC_GET_TEXT_LABEL,                      NativeCommandScriptStaticGetTextLabel);
+        RegisterNative(SCRIPT_STATIC_GET_VECTOR,                          NativeCommandScriptStaticGetVector);
+        RegisterNative(SCRIPT_STATIC_GET_POINTER,                         NativeCommandScriptStaticGetPointer);
+
+        RegisterNative(SCRIPT_GLOBAL_SET_INT,                             NativeCommandScriptGlobalSetInt);
+        RegisterNative(SCRIPT_GLOBAL_SET_FLOAT,                           NativeCommandScriptGlobalSetFloat);
+        RegisterNative(SCRIPT_GLOBAL_SET_TEXT_LABEL,                      NativeCommandScriptGlobalSetTextLabel);
+        RegisterNative(SCRIPT_GLOBAL_SET_VECTOR,                          NativeCommandScriptGlobalSetVector);
+        RegisterNative(SCRIPT_GLOBAL_GET_INT,                             NativeCommandScriptGlobalGetInt);
+        RegisterNative(SCRIPT_GLOBAL_GET_FLOAT,                           NativeCommandScriptGlobalGetFloat);
+        RegisterNative(SCRIPT_GLOBAL_GET_TEXT_LABEL,                      NativeCommandScriptGlobalGetTextLabel);
+        RegisterNative(SCRIPT_GLOBAL_GET_VECTOR,                          NativeCommandScriptGlobalGetVector);
+        RegisterNative(SCRIPT_GLOBAL_GET_POINTER,                         NativeCommandScriptGlobalGetPointer);
+
+        RegisterNative(SCRIPT_FUNCTION_BEGIN_CALL,                        NativeCommandScriptFunctionBeginCall);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_INT,                     NativeCommandScriptFunctionAddParamInt);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_FLOAT,                   NativeCommandScriptFunctionAddParamFloat);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_STRING,                  NativeCommandScriptFunctionAddParamString);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_VECTOR,                  NativeCommandScriptFunctionAddParamVector);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_POINTER,                 NativeCommandScriptFunctionAddParamPointer);
         // Register all ref parameters to the same handler.
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_INT, NativeCommandScriptFunctionAddParamReference);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_FLOAT, NativeCommandScriptFunctionAddParamReference);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_INT,           NativeCommandScriptFunctionAddParamReference);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_FLOAT,         NativeCommandScriptFunctionAddParamReference);
         RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_15, NativeCommandScriptFunctionAddParamReference);
         RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_23, NativeCommandScriptFunctionAddParamReference);
         RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_31, NativeCommandScriptFunctionAddParamReference);
         RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_TEXT_LABEL_63, NativeCommandScriptFunctionAddParamReference);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_VECTOR, NativeCommandScriptFunctionAddParamReference);
-        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_STRUCT, NativeCommandScriptFunctionAddParamReference);
-        RegisterNative(SCRIPT_FUNCTION_END_CALL_PROC, NativeCommandScriptFunctionEndCallProc);
-        RegisterNative(SCRIPT_FUNCTION_END_CALL_INT, NativeCommandScriptFunctionEndCallInt);
-        RegisterNative(SCRIPT_FUNCTION_END_CALL_FLOAT, NativeCommandScriptFunctionEndCallFloat);
-        RegisterNative(SCRIPT_FUNCTION_END_CALL_STRING, NativeCommandScriptFunctionEndCallString);
-        RegisterNative(SCRIPT_FUNCTION_END_CALL_VECTOR, NativeCommandScriptFunctionEndCallVector);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_VECTOR,        NativeCommandScriptFunctionAddParamReference);
+        RegisterNative(SCRIPT_FUNCTION_ADD_PARAM_REFERENCE_STRUCT,        NativeCommandScriptFunctionAddParamReference);
+        RegisterNative(SCRIPT_FUNCTION_END_CALL_PROC,                     NativeCommandScriptFunctionEndCallProc);
+        RegisterNative(SCRIPT_FUNCTION_END_CALL_INT,                      NativeCommandScriptFunctionEndCallInt);
+        RegisterNative(SCRIPT_FUNCTION_END_CALL_FLOAT,                    NativeCommandScriptFunctionEndCallFloat);
+        RegisterNative(SCRIPT_FUNCTION_END_CALL_STRING,                   NativeCommandScriptFunctionEndCallString);
+        RegisterNative(SCRIPT_FUNCTION_END_CALL_VECTOR,                   NativeCommandScriptFunctionEndCallVector);
+
+        // clang-format on
     }
 }

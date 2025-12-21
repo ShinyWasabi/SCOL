@@ -2,7 +2,7 @@
 Allows you to load RAGE scripts (`.sco` files) for Grand Theft Auto V Enhanced. It also exposes new native commands that extend the capabilities of RAGE Scripting Language. See the documentation [here](https://github.com/ShinyWasabi/SCOL/blob/main/NATIVES.md).
 
 ## How It Works
-Although the SCO format is never used in GTA V, the game engine still has the support for loading them. However, scripts compiled for other RAGE titles are not directly compatible due to different SCO header and incompatible natives and globals.
+Although the SCO format is never used in GTA V, the game engine still has the support for loading it. However, scripts compiled for other RAGE titles are not directly compatible due to different SCO header and incompatible natives and globals.
 
 SCOL works by creating a script thread using the unused SCO loader. This function loads a `.sco` file from a specified path on disk and creates a script program and thread for it automatically.
 
