@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(SCOL CXX)
 
 include(cmake/async-logger.cmake)
+include(cmake/json.cmake)
 include(cmake/minhook.cmake)
 
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
@@ -30,6 +31,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     AsyncLogger
+    nlohmann_json::nlohmann_json
     minhook
 )
 

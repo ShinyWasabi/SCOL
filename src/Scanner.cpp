@@ -148,7 +148,8 @@ namespace SCOL
 
         if (auto result = ScanPattern(data, length, base, size))
         {
-            LOGF(INFO, "Found pattern {} at 0x{:X}.", name, result->As<std::uintptr_t>());
+            auto rva = result->As<std::uintptr_t>() - base.As<std::uintptr_t>();
+            LOGF(INFO, "Found pattern {} at GTA5_Enhanced.exe+0x{:X}.", name, rva);
             m_CachedResults[hash] = result;
             return result;
         }

@@ -1,26 +1,32 @@
 #include "Settings.hpp"
-#include "util/IniFile.hpp"
+#include <nlohmann/json.hpp>
 
 namespace SCOL
 {
-    static std::vector<std::uint64_t> ParseArgs(const std::string& str)
+    static nlohmann::json LoadJson(const std::string& path)
     {
-        std::vector<std::uint64_t> args;
-        std::istringstream iss(str);
-        std::string token;
+        std::ifstream file(path);
+        if (!file.is_open())
+            return nlohmann::json::object();
 
-        while (std::getline(iss, token, ','))
+        nlohmann::json json;
+
+        try
         {
-            try
-            {
-                args.push_back(std::stoull(token));
-            }
-            catch (...)
-            {
-            }
+            file >> json;
+        }
+        catch (...)
+        {
+            return nlohmann::json::object();
         }
 
-        return args;
+        return json;
+    }
+
+    static void SaveJson(const std::string& path, const nlohmann::json& json)
+    {
+        std::ofstream file(path);
+        file << json.dump(4);
     }
 
     void Settings::InitImpl(const std::string& file)
@@ -31,35 +37,36 @@ namespace SCOL
 
     void Settings::LoadImpl()
     {
-        IniFile ini;
-        ini.LoadFile(m_FileName.c_str());
+        nlohmann::json json = LoadJson(m_FileName);
 
         bool dirty = false;
 
-        if (!ini.GetValue("Settings", "ScriptsFolder"))
+        auto& settings = json["Settings"];
+
+        if (!settings.contains("ScriptsFolder"))
         {
-            ini.SetValue("Settings", "ScriptsFolder", ".");
+            settings["ScriptsFolder"] = ".";
             dirty = true;
         }
 
-        if (!ini.GetValue("Settings", "ScriptOverridesFolder"))
+        if (!settings.contains("ScriptOverridesFolder"))
         {
-            ini.SetValue("Settings", "ScriptOverridesFolder", "script-overrides");
+            settings["ScriptOverridesFolder"] = "script-overrides";
             dirty = true;
         }
 
-        if (!ini.GetValue("Settings", "ReloadKey"))
+        if (!settings.contains("ReloadKey"))
         {
-            ini.SetLongValue("Settings", "ReloadKey", VK_F5);
+            settings["ReloadKey"] = VK_F5;
             dirty = true;
         }
 
         if (dirty)
-            ini.SaveFile(m_FileName.c_str());
+            SaveJson(m_FileName, json);
 
-        g_Variables.ScriptsFolder = ini.GetValue("Settings", "ScriptsFolder", ".");
-        g_Variables.ScriptOverridesFolder = ini.GetValue("Settings", "ScriptOverridesFolder", "script-overrides");
-        g_Variables.ReloadKey = ini.GetLongValue("Settings", "ReloadKey", VK_F5);
+        g_Variables.ScriptsFolder = settings.value("ScriptsFolder", ".");
+        g_Variables.ScriptOverridesFolder = settings.value("ScriptOverridesFolder", "script-overrides");
+        g_Variables.ReloadKey = settings.value("ReloadKey", VK_F5);
     }
 
     void Settings::UpdateImpl()
@@ -75,43 +82,37 @@ namespace SCOL
 
     Settings::ScriptData Settings::GetScriptDataImpl(const std::string& name)
     {
-        IniFile ini;
-        ini.LoadFile(m_FileName.c_str());
+        nlohmann::json json = LoadJson(m_FileName);
 
         bool dirty = false;
 
-        if (!ini.GetValue(name.c_str(), "Args"))
+        auto& entry = json[name];
+
+        if (!entry.contains("Args"))
         {
-            ini.SetValue(name.c_str(), "Args", "0");
+            entry["Args"] = nlohmann::json::array();
             dirty = true;
         }
 
-        if (!ini.GetValue(name.c_str(), "ArgCount"))
+        if (!entry.contains("StackSize"))
         {
-            ini.SetLongValue(name.c_str(), "ArgCount", 0);
+            entry["StackSize"] = 1424;
             dirty = true;
         }
 
-        if (!ini.GetValue(name.c_str(), "StackSize"))
+        if (!entry.contains("CleanupFunction"))
         {
-            ini.SetLongValue(name.c_str(), "StackSize", 1424);
-            dirty = true;
-        }
-
-        if (!ini.GetValue(name.c_str(), "CleanupFunction"))
-        {
-            ini.SetLongValue(name.c_str(), "CleanupFunction", 0);
+            entry["CleanupFunction"] = 0;
             dirty = true;
         }
 
         if (dirty)
-            ini.SaveFile(m_FileName.c_str());
+            SaveJson(m_FileName, json);
 
         ScriptData data;
-        data.Args = ParseArgs(ini.GetValue(name.c_str(), "Args", "0"));
-        data.ArgCount = ini.GetLongValue(name.c_str(), "ArgCount", 0);
-        data.StackSize = ini.GetLongValue(name.c_str(), "StackSize", 1424);
-        data.CleanupFunction = ini.GetLongValue(name.c_str(), "CleanupFunction", 0);
+        data.Args = entry.value("Args", std::vector<std::uint64_t>{});
+        data.StackSize = entry.value("StackSize", 1424);
+        data.CleanupFunction = entry.value("CleanupFunction", 0);
 
         return data;
     }

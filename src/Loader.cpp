@@ -42,9 +42,10 @@ namespace SCOL::Loader
             auto path = entry.path().string();
             auto name = entry.path().stem().string();
             auto data = Settings::GetScriptData(name);
-            LOGF(INFO, "Loaded data for script '{}'. ArgCount={}, StackSize={}, CleanupFunction=0x{:X}", name, data.ArgCount, data.StackSize, data.CleanupFunction);
+            auto argCount = static_cast<uint32_t>(data.Args.size());
+            LOGF(INFO, "Loaded data for script '{}'. ArgCount={}, StackSize={}, CleanupFunction=0x{:X}", name, argCount, data.StackSize, data.CleanupFunction);
 
-            if (auto id = LoadScript(path.c_str(), data.ArgCount ? data.Args.data() : nullptr, data.ArgCount, data.StackSize))
+            if (auto id = LoadScript(path.c_str(), argCount ? data.Args.data() : nullptr, argCount, data.StackSize))
             {
                 scriptThreadIds.push_back(id);
                 LOGF(INFO, "Started new thread with ID {}.", id);

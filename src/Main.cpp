@@ -11,8 +11,8 @@ namespace SCOL
         Logging::Init("SCOL.log");
         LOGF(INFO, "Logging initialized.");
 
-        Settings::Init("SCOL.ini");
-        LOGF(INFO, "Settings initialized. ScriptsFolder={}, ReloadKey={}", g_Variables.ScriptsFolder, g_Variables.ReloadKey);
+        Settings::Init("SCOL.json");
+        LOGF(INFO, "Settings initialized.");
 
         if (!g_Pointers.Init())
         {

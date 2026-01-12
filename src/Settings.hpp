@@ -15,7 +15,6 @@ namespace SCOL
         struct ScriptData
         {
             std::vector<std::uint64_t> Args;
-            std::uint32_t ArgCount = 0;
             std::uint32_t StackSize = 1424;
             std::uint32_t CleanupFunction = 0;
         };
@@ -56,5 +55,5 @@ namespace SCOL
         std::chrono::time_point<std::chrono::steady_clock> m_LastUpdate;
     };
 
-    inline Settings::Variables g_Variables{};
+    inline Settings::Variables g_Variables;
 }
